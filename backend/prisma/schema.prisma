@@ -1,0 +1,167 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  MEMBER
+  CUSTOMER
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+model User {
+  id        String   @id @default(uuid()) @map("_id")
+  email     String   @unique
+  name      String
+  password  String? 
+  refreshToken String?
+  google_id  String?
+  isVerify  Boolean @default(false)
+  role      Role     @default(CUSTOMER)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  orders    Order[]
+  codes     Code[]
+}
+
+
+model Product {
+  id             String   @id @default(uuid()) @map("_id")
+  name           String
+  desc           String
+  price          Float
+  isFeatured     Boolean @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  images         Image[]
+
+  categoryId     String
+  category       Category  @relation(fields: [categoryId], references: [id])
+ 
+  sizes          ProductsAndSizes[]
+  colors          ProductsAndColors[]
+  orderItems     OrderItem[]
+}
+
+model Category {
+  id        String   @id @default(uuid()) @map("_id")
+  image     String 
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  products  Product[]
+}
+
+model Size {
+  id        String   @id @default(uuid()) @map("_id")
+  value     String
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  products  ProductsAndSizes[]
+}
+
+model Color {
+  id        String   @id @default(uuid()) @map("_id")
+  name      String
+  value     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  products    ProductsAndColors[]
+}
+
+model Image {
+  id        String   @id @default(uuid()) @map("_id")
+  url       String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  status    Int      @default(1)
+  
+  productId String 
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model Order {
+  id        String   @id @default(uuid()) @map("_id")
+  isPaid    Boolean  @default(false)
+  total     Float
+  address   String
+  phone     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  orderItems OrderItem[]
+}
+
+model OrderItem {
+  id        String   @id @default(uuid()) @map("_id")
+  size      String
+  color     String
+  quantity  Int
+  price     Float
+
+  status    Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+
+model ProductsAndSizes {
+  id String @id @default(uuid()) @map("_id")
+
+  sizeId     String 
+  size       Size    @relation(fields: [sizeId], references: [id])
+
+  productId String 
+  product   Product @relation(fields: [productId], references: [id])
+}
+
+model ProductsAndColors {
+  id String @id @default(uuid()) @map("_id")
+
+  colorId     String 
+  color       Color    @relation(fields: [colorId], references: [id])
+
+  productId String 
+  product   Product @relation(fields: [productId], references: [id])
+}
+
+
+enum CodeType {
+  OTP
+  RESET
+}
+
+model Code {
+  id             String   @id @default(uuid()) @map("_id")
+  code           String
+  type           CodeType
+  createdAt      DateTime @default(now())
+  expiredAt      DateTime
+  
+  userId         String
+  user          User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
