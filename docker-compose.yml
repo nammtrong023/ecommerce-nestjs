@@ -9,9 +9,7 @@ services:
         ports:
             - 3000:3000
     nginx:
-        build:
-            context: .
-            dockerfile: Dockerfile
+        image: nginx:1.25.3-alpine
         depends_on:
             - frontend
         ports:
