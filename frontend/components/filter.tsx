@@ -18,7 +18,7 @@ const Filter: React.FC<FilterProps> = ({ data, name, sizes, valueKey }) => {
 
     const selectedValue = searchParams.get(valueKey);
 
-    const onClick = (id: number) => {
+    const onClick = (id: string) => {
         const parseId = id.toString();
         const current = qs.parse(searchParams.toString());
 

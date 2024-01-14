@@ -1,14 +1,6 @@
 version: '3'
 
 services:
-    backend:
-        build:
-            context: ./backend
-            dockerfile: backend.dockerfile
-        container_name: backend
-        ports:
-            - 8080:8080
-
     frontend:
         build:
             context: ./frontend
@@ -16,3 +8,21 @@ services:
         container_name: frontend
         ports:
             - 3000:3000
+    nginx:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        depends_on:
+            - frontend
+        ports:
+            - 80:80
+        volumes:
+            - ./frontend:/usr/share/nginx/html
+            - ./nginx.conf:/etc/nginx/nginx.conf
+    backend:
+        build:
+            context: ./backend
+            dockerfile: backend.dockerfile
+        container_name: backend
+        ports:
+            - 8080:8080
