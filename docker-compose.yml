@@ -10,7 +10,7 @@ services:
             - 3000:3000
     nginx:
         build:
-            context: .
+            context: ./nginx
             dockerfile: Dockerfile
         restart: unless-stopped
         depends_on:
