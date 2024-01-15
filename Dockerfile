@@ -4,8 +4,7 @@ WORKDIR /usr/share/nginx/html
 
 RUN rm /etc/nginx/conf.d/*
 
-# COPY ./nginx.conf /etc/nginx/nginx.conf
-COPY ./ecommerce_main/nginx.conf /etc/nginx/nginx.conf
+COPY ./nginx.conf /etc/nginx/nginx.conf
 
 
 EXPOSE 80
