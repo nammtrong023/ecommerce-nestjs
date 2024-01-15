@@ -17,8 +17,8 @@ services:
             - frontend
         ports:
             - 80:80
-        volumes:
-            - /var/jenkins_home/workspace/ecommerce_main@tmp/nginx.conf:/etc/nginx/nginx.conf:ro
+        # volumes:
+        #     - /var/jenkins_home/workspace/ecommerce_main@tmp/nginx.conf:/etc/nginx/nginx.conf:ro
     backend:
         build:
             context: ./backend
