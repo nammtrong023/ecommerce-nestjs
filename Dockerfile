@@ -1,11 +1,6 @@
 FROM nginx:1.25.3-alpine
 
-WORKDIR /usr/share/nginx/html
-
-RUN rm /etc/nginx/conf.d/*
-
-COPY ./nginx.conf /etc/nginx/nginx.conf
-
+COPY /var/jenkins_home/workspace/ecommerce_main@tmp/nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 80
 
