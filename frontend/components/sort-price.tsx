@@ -45,13 +45,13 @@ const SortPrice = () => {
                     onClick={() => handleSortPrice('asc')}
                     className='focus-visible:ring-offset-0 focus-visible:ring-0 cursor-pointer flex flex-col items-center justify-center gap-y-2 rounded-lg'
                 >
-                    <span className='text-base py-1'>Từ thấp đến cao</span>
+                    <span className='text-base py-1'>Giá tăng dần</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem
                     onClick={() => handleSortPrice('desc')}
                     className='focus-visible:ring-offset-0 focus-visible:ring-0 cursor-pointer flex flex-col items-center justify-center gap-y-2 rounded-lg'
                 >
-                    <span className='text-base py-1'>Từ cao đến thấp</span>
+                    <span className='text-base py-1'>Giá giảm dần</span>
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
